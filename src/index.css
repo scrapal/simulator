@@ -16,3 +16,7 @@ body {
   left: 0;
   padding: 20px;
 }
+
+.selected {
+  background-color: #b7bafc;
+}
