@@ -6,6 +6,7 @@ function App() {
   const scene = useRef<HTMLDivElement>(null);
   const engine = useRef<Engine>(Engine.create());
   const isPressed = useRef(false);
+  const runner = useRef<Runner | null>(null);
 
   const handleDown = () => {
     isPressed.current = true;
@@ -35,7 +36,20 @@ function App() {
     }
   };
 
+  const handleStart = (e: KeyboardEvent) => {
+    console.log("key:", e.key);
+    if (e.key == " ") {
+      if (runner.current) {
+        Runner.stop(runner.current);
+        runner.current = null;
+      } else {
+        runner.current = Runner.run(engine.current);
+      }
+    }
+  };
+
   useEffect(() => {
+    document.addEventListener("keypress", handleStart);
     // mount
     const cw = scene.current!.clientWidth;
     const ch = scene.current!.clientHeight;
@@ -60,7 +74,7 @@ function App() {
     ]);
 
     // run the engine
-    Runner.run(engine.current);
+    // Runner.run(engine.current);
     Render.run(render);
 
     // unmount
